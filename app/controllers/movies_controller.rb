@@ -14,16 +14,21 @@ class MoviesController < ApplicationController
 
     @all_ratings = Movie.pluck(:rating).uniq
 
+
+
+    #Session handling for ratings filter
    if params[:ratings]
      session[:ratings] = params[:ratings]
    end
    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]} ]
 
+   #Session handling for title/date sort
    if params[:sort]
      session[:sort] = params[:sort]
    end
    session[:sort] = session[:sort] || nil
 
+   #Querying for session paramaters
    if session[:sort] and session[:ratings]
      @movies = Movie.order(session[:sort]).where(:rating => session[:ratings].keys)
    elsif session[:ratings]
@@ -31,7 +36,7 @@ class MoviesController < ApplicationController
    else
      @movies = Movie.all
    end
-   
+
   end
 
   def new
@@ -60,6 +65,11 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
+  end
+
+  def check_boxes
+    ahem
+    
   end
 
 end
