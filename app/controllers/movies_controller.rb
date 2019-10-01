@@ -14,28 +14,17 @@ class MoviesController < ApplicationController
 
     @all_ratings = Movie.pluck(:rating).uniq
 
-   redirect = false
-
    if params[:ratings]
      session[:ratings] = params[:ratings]
-   else
-     redirect = true
    end
    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]} ]
    @ratings = session[:ratings]
 
    if params[:sort]
      session[:sort] = params[:sort]
-   else
-     redirect = true
    end
    session[:sort] = session[:sort]
    @category = session[:sort]
-
-   if redirect
-     flash.keep
-     redirect_to movies_path({:sort => @category, :ratings => @ratings})
-   end
 
    #@movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
    if @category and @ratings
