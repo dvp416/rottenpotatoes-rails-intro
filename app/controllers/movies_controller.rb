@@ -12,10 +12,17 @@ class MoviesController < ApplicationController
 
   def index
 
-    @all_ratings = ['G', 'PG', 'PG-13', 'R']
+    #@all_ratings = ['G', 'PG', 'PG-13', 'R']
+    @all_ratings = Movie.order(params:rating).select(:rating).map(&:rating).uniq
+    @checks = checked_boxes
+    @checks.each do |rating|
+      params[:rating] = true
+    end
 
     if params[:sort]
       @movies = Movie.order(params[:sort])
+    elsif params[:rating]
+      @movies = @all_rating
     else
       @movies = Movie.all
     end
@@ -49,6 +56,13 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
+  end
+
+  def checked_boxes
+    if params[:rating]
+      params[:rating].keys
+    else
+      @all_ratings
   end
 
 end
