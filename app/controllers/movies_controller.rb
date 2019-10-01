@@ -51,12 +51,4 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
-  def checkboxes
-    if params[:ratings]
-      params[:ratings].keys
-    else
-      @all_ratings
-    end
-  end
-
 end
