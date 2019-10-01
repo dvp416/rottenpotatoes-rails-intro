@@ -19,8 +19,6 @@ class MoviesController < ApplicationController
 
     if params[:ratings]
       session[:ratings] = params[:ratings]
-    else
-      redirect = true
     end
 
     session[:ratings] = session[:ratings] || Hash[@all_ratings.map{|ratings| [ratings, 1]}]
@@ -28,8 +26,6 @@ class MoviesController < ApplicationController
 
     if params[:sort]
       session[:sort] = params[:sort]
-    else
-      redirect = true
     end
     session[:sort] = session[:sort] || params[:sort]
     @sort = session[:sort]
