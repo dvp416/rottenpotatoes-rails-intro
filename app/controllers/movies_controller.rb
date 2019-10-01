@@ -13,7 +13,7 @@ class MoviesController < ApplicationController
   def index
 
     #@all_ratings = ['G', 'PG', 'PG-13', 'R']
-    @all_ratings = Movie.order(params[:rating]).select(:rating).map(&:rating).uniq
+    @all_ratings = Movie.order(:rating).select(:rating).map(&:rating).uniq
     @checks = checked_boxes
     @checks.each do |rating|
       params[:rating] = true
