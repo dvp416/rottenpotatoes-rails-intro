@@ -15,11 +15,11 @@ class MoviesController < ApplicationController
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
 
-    if session[:sort]
-      @movies = Movie.order(session[:sort])
-    elsif params[:sort]
+    if params[:sort]
       @movies = Movie.order(params[:sort])
       session[:sort] = params[:sort]
+    elsif session[:sort]
+      @movies = Movie.order(session[:sort])
     end
 
     if params[:ratings]
