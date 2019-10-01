@@ -14,7 +14,6 @@ class MoviesController < ApplicationController
 
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
-    @checks = checked_boxes
     #@checks.each do |rating|
   #    params[rating] = true
     #end
@@ -22,7 +21,8 @@ class MoviesController < ApplicationController
     if params[:sort]
       @movies = Movie.order(params[:sort])
     elsif params[:rating]
-      @movies = Movie.where(:rating => @checks)
+      @boxes = params[:rating].keys
+      @movies = Movie.where('rating = ?', @boxes)
     else
       @movies = Movie.all
     end
@@ -54,12 +54,6 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
-  end
-
-  def checked_boxes
-    if params[:rating]
-      params[:rating].keys
-    end
   end
 
 end
