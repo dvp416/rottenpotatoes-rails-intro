@@ -31,15 +31,7 @@ class MoviesController < ApplicationController
    else
      @movies = Movie.all
    end
-
-
-    #if params[:sort]
-    #  @movies = Movie.order(params[:sort])
-    #elsif params[:ratings]
-    #  @movies = Movie.where(:rating => params[:ratings].keys)
-    #else
-    #  @movies = Movie.all
-    #end
+   
   end
 
   def new
