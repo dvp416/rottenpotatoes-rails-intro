@@ -23,7 +23,7 @@ class MoviesController < ApplicationController
       redirect = true
     end
 
-    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]}]
+    session[:ratings] = session[:ratings]
     @ratings = session[:ratings]
 
     if params[:sort]
@@ -38,7 +38,15 @@ class MoviesController < ApplicationController
       redirect_to movies_path({:sort => @sort, :ratings => @ratings})
     end
 
-    @movies = Movie.where(:rating => @ratings).find(:all, :order => @sort)
+    if session[:ratings] && session[:sort]
+      @movies = Movies.order(session[:sort]).where(:rating => session[:ratings].keys)
+    elsif session[:ratings]
+      @movies = Movies.where(:rating => session[:ratings].keys)
+    elsif session[:sort]
+      @movies = Movies.order(session[:sort])
+    else
+      @movies = Movies.all
+    end
 
 
     #if params[:sort]
