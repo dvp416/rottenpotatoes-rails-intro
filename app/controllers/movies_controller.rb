@@ -18,8 +18,8 @@ class MoviesController < ApplicationController
     if params[:sort]
       @movies = Movie.order(params[:sort])
       session[:sort] = params[:sort]
-    #elsif session[:sort]
-    #  @movies = Movie.order(session[:sort])
+    elsif session[:sort]
+      @movies = Movie.order(session[:sort])
     end
 
     if params[:ratings]
