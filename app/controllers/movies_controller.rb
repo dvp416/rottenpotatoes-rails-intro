@@ -14,12 +14,6 @@ class MoviesController < ApplicationController
 
     @all_ratings = Movie.pluck(:rating).uniq
 
-    @checked_boxes = check_boxes
-    @checked_boxes.each do |rating|
-      params[rating] = true
-    end
-
-
     #Session handling for ratings filter
    if params[:ratings]
      session[:ratings] = params[:ratings]
@@ -31,6 +25,12 @@ class MoviesController < ApplicationController
      session[:sort] = params[:sort]
    end
    session[:sort] = session[:sort] || nil
+
+   @checked_boxes = check_boxes
+   @checked_boxes.each do |rating|
+     params[rating] = true
+   end
+
 
    #Querying for session paramaters
    if session[:sort] and session[:ratings]
