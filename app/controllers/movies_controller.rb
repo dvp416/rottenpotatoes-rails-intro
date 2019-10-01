@@ -16,7 +16,7 @@ class MoviesController < ApplicationController
 
     @checked_boxes = check_boxes
     @checked_boxes.each do |rating|
-      session[:rating] = true
+      params[:rating] = true
     end
 
 
