@@ -14,12 +14,19 @@ class MoviesController < ApplicationController
 
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
-    @current_user = User.find_by_id(session[:current_user_id])
 
     if params[:sort]
       @movies = Movie.order(params[:sort])
-    elsif params[:ratings]
+      session[:sort] = params[:sort]
+    elsif session[:sort]
+      @movies = Movie.order(session[:sort])
+    end
+
+    if params[:ratings]
       @movies = Movie.where(:rating => params[:ratings].keys)
+      session[:ratings] = params[:ratings].keys
+    elsif session[:ratings]
+      @movies = Movie.where(:rating => session[:ratings].keys)
     else
       @movies = Movie.all
     end
@@ -33,8 +40,6 @@ class MoviesController < ApplicationController
     @movie = Movie.create!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully created."
     redirect_to movies_path
-
-    session[:current_user_id] = @user.id
   end
 
   def edit
