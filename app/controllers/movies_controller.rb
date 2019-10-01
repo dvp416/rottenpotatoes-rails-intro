@@ -13,36 +13,33 @@ class MoviesController < ApplicationController
   def index
 
     #@all_ratings = ['G', 'PG', 'R']
-    @all_ratings = Movie.pluck(:rating).uniq
+    #@all_ratings = Movie.pluck(:rating).uniq
+    @all_ratings = Movie.all_ratings
 
-    redirect = false
+   redirect = false
 
-    if params[:ratings]
-      session[:ratings] = params[:ratings]
-    end
+   if params[:ratings]
+     session[:ratings] = params[:ratings]
+   else
+     redirect = true
+   end
+   session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]} ]
+   @ratings = session[:ratings]
 
-    session[:ratings] = session[:ratings] || Hash[@all_ratings.map{|ratings| [ratings, 1]}]
-    @ratings = session[:ratings]
+   if params[:category]
+     session[:category] = params[:category]
+   else
+     redirect = true
+   end
+   session[:category] = session[:category] || ""
+   @category = session[:category]
 
-    if params[:sort]
-      session[:sort] = params[:sort]
-    end
-    session[:sort] = session[:sort] || params[:sort]
-    @sort = session[:sort]
+   if redirect
+     flash.keep
+     redirect_to movies_path({:category => @category, :ratings => @ratings})
+   end
 
-    if redirect
-      redirect_to movies_path({:sort => @sort, :ratings => @ratings})
-    end
-
-    if session[:ratings] and session[:sort]
-      @movies = Movies.order(session[:sort]).where(:rating => session[:ratings].keys)
-    elsif session[:ratings]
-      #@movies = Movies.where(:rating => session[:ratings].keys)
-    elsif session[:sort]
-      @movies = Movies.order(session[:sort])
-    else
-      @movies = Movies.all
-    end
+   @movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
 
 
     #if params[:sort]
