@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     if params[:sort]
       @movies = Movie.order(params[:sort])
     else
-      @movies = Movie.where(:rating => @checks)
+      @movies = Movie.where(:rating => params[:rating])
     end
   end
 
