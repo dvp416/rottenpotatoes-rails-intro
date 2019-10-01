@@ -12,6 +12,8 @@ class MoviesController < ApplicationController
 
   def index
 
+    session[:current_user_id] = user.id
+
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
 
