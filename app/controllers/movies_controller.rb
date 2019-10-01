@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
       @movies = Movie.order(params[:sort])
     elsif params[:rating]
       @boxes = params[:rating].keys
-      @movies = Movie.where('rating = ?', @boxes)
+      @movies = Movie.where('rating = ?', params[:rating].keys)
     else
       @movies = Movie.all
     end
