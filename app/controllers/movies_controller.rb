@@ -11,14 +11,15 @@ class MoviesController < ApplicationController
   end
 
   def index
-
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
 
     if params[:sort]
-      @movies = Movie.order(params[:sort])
+      @movie = Movie.order(params[:sort])
     else
-      @movies = Movie.where(:rating => params[:ratings].keys
+      @movie = Movie.where(:rating => params[:ratings].keys)
+    end
+
   end
 
   def new
