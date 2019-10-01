@@ -13,20 +13,18 @@ class MoviesController < ApplicationController
   def index
 
     @all_ratings = Movie.pluck(:rating).uniq
-    @checked_boxes = nil
+
+    @checked_boxes = check_boxes
+    @checked_boxes.each do |rating|
+      params[rating] = true
+    end
+
 
     #Session handling for ratings filter
    if params[:ratings]
      session[:ratings] = params[:ratings]
-     @checked_boxes = params[:ratings].keys
-   else
-     @checked_boxes = @all_ratings
    end
    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]} ]
-
-   @checked_boxes.each do |rating|
-     params[rating] = true
-   end
 
    #Session handling for title/date sort
    if params[:sort]
