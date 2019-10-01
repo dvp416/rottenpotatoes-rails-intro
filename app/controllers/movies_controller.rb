@@ -19,7 +19,6 @@ class MoviesController < ApplicationController
       @movies = Movie.order(params[:sort])
     else
       @movies = Movie.where(:rating => params[:ratings].keys
-    end
   end
 
   def new
