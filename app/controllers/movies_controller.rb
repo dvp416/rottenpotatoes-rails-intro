@@ -21,10 +21,8 @@ class MoviesController < ApplicationController
 
     if params[:sort]
       @movies = Movie.order(params[:sort])
-    elsif params[:rating]
-      @movies = @all_rating
     else
-      @movies = Movie.all
+      @movies = @all_ratings
     end
 
 
