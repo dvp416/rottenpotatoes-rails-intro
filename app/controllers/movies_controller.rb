@@ -30,7 +30,7 @@ class MoviesController < ApplicationController
    else
      redirect = true
    end
-   session[:category] = session[:category] || :asc
+   session[:category] = session[:category] || ""
    @category = session[:category]
 
    if redirect
@@ -38,7 +38,11 @@ class MoviesController < ApplicationController
      redirect_to movies_path({:category => @category, :ratings => @ratings})
    end
 
-   @movies = Movie.order(:sort => @sort).where("rating in (?)", @ratings.keys)
+   if session[:ratings] and session[:sort]
+     @movies = Movie.order(:sort => @sort).where("rating in (?)", @ratings.keys)
+   else
+     @movies = Movie.all
+   end
 
 
     #if params[:sort]
