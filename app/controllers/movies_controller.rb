@@ -57,6 +57,7 @@ class MoviesController < ApplicationController
   def checked_boxes
     if params[:rating]
       params[:rating].keys
+    end
   end
 
 end
