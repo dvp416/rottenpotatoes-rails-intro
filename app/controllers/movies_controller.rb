@@ -12,16 +12,14 @@ class MoviesController < ApplicationController
 
   def index
 
-    session[:current_user_id] = user.id
-
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
 
-    if params[:sort]
+    if session[:sort]
+      @movies = Movie.order(session[:sort])
+    elsif params[:sort]
       @movies = Movie.order(params[:sort])
       session[:sort] = params[:sort]
-    elsif session[:sort]
-      @movies = Movie.order(session[:sort])
     end
 
     if params[:ratings]
