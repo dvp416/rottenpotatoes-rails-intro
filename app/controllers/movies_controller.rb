@@ -21,8 +21,8 @@ class MoviesController < ApplicationController
     if params[:sort]
       @movies = Movie.order(params[:sort])
     elsif params[:rating]
-      @boxes = params[:rating].keys
-      @movies = Movie.where('rating = ?', params[:rating].keys)
+      @checked_boxes = boxes
+      @movies = Movie.where(:rating => params[:rating].keys)
     else
       @movies = Movie.all
     end
@@ -54,6 +54,14 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
+  end
+
+  def boxes
+    if params[:rating]
+      params[:rating].keys
+    else
+      @all_ratings
+    end
   end
 
 end
