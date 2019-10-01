@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
      redirect_to movies_path({:category => @category, :ratings => @ratings})
    end
 
-   @movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
+   @movies = Movie.order(:sort => @sort).where("rating in (?)", @ratings.keys)
 
 
     #if params[:sort]
