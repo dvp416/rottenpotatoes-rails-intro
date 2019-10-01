@@ -14,14 +14,11 @@ class MoviesController < ApplicationController
 
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
-    @checked_boxes = boxes
 
     if params[:sort]
       @movies = Movie.order(params[:sort])
-    elsif params[:ratings]
-      @movies = Movie.where(:rating => params[:ratings].keys)
-    else
-      @movies = Movie.all
+    else params[:ratings]
+      @movies = Movie.where(:rating => params[:ratings].keys
     end
   end
 
@@ -51,12 +48,6 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
-  end
-
-  def boxes
-    if params[:ratings]
-      params[:ratings].keys
-    end
   end
 
 end
