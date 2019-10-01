@@ -23,7 +23,7 @@ class MoviesController < ApplicationController
       redirect = true
     end
 
-    session[:ratings] = session[:ratings]
+    session[:ratings] = session[:ratings] || Hash[@all_ratings.map{|ratings|, [ratings, 1]}]
     @ratings = session[:ratings]
 
     if params[:sort]
@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
     else
       redirect = true
     end
-    session[:sort] = session[:sort] || ""
+    session[:sort] = session[:sort] || params[:sort]
     @sort = session[:sort]
 
     if redirect
