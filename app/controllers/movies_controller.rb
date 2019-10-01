@@ -18,17 +18,15 @@ class MoviesController < ApplicationController
      session[:ratings] = params[:ratings]
    end
    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]} ]
-   @ratings = session[:ratings]
 
    if params[:sort]
      session[:sort] = params[:sort]
    end
    session[:sort] = session[:sort] || nil
-   @category = session[:sort]
 
    #@movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
-   if @category and @ratings
-     @movies = Movie.order(@category).where(:rating => @ratings.keys)
+   if session[:sort] and session[:ratings]
+     @movies = Movie.order(session[:sort]).where(:rating => session[:ratings].keys)
    else
      @movies = Movie.all
    end
