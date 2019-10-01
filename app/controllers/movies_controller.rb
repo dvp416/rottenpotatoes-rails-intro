@@ -23,7 +23,7 @@ class MoviesController < ApplicationController
    if params[:sort]
      session[:sort] = params[:sort]
    end
-   session[:sort] = session[:sort]
+   session[:sort] = session[:sort] || nil
    @category = session[:sort]
 
    #@movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
