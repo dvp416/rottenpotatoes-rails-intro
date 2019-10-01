@@ -24,9 +24,10 @@ class MoviesController < ApplicationController
    end
    session[:sort] = session[:sort] || nil
 
-   #@movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
    if session[:sort] and session[:ratings]
      @movies = Movie.order(session[:sort]).where(:rating => session[:ratings].keys)
+   elsif session[:ratings]
+     @movies = Movie.where(:rating => session[:ratings].keys)
    else
      @movies = Movie.all
    end
