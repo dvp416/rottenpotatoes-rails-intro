@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
 
   def index
 
-    @all_ratings = ['G', 'PG', 'PG-13' 'R']
+  @all_ratings = ['G', 'PG', 'PG-13' 'R']
     #@all_ratings = Movie.pluck(:rating).uniq
 
    redirect = false
@@ -25,24 +25,20 @@ class MoviesController < ApplicationController
    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]} ]
    @ratings = session[:ratings]
 
-   if params[:category]
-     session[:category] = params[:category]
+   if params[:sort]
+     session[:sort] = params[:sort]
    else
      redirect = true
    end
-   session[:category] = session[:category] || ""
-   @category = session[:category]
+   session[:sort] = session[:sort] || ""
+   @category = session[:sort]
 
    if redirect
      flash.keep
-     redirect_to movies_path({:category => @category, :ratings => @ratings})
+     redirect_to movies_path({:sort => @category, :ratings => @ratings})
    end
 
-   if session[:ratings] and session[:sort]
-     @movies = Movie.order(:sort => @sort).where("rating in (?)", @ratings.keys)
-   else
-     @movies = Movie.all
-   end
+   @movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
 
 
     #if params[:sort]
