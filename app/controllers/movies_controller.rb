@@ -63,6 +63,7 @@ class MoviesController < ApplicationController
       params[:rating].keys
     else
       @all_ratings
+    end
   end
 
 end
