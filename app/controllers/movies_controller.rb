@@ -56,6 +56,7 @@ class MoviesController < ApplicationController
   def boxes
     if params[:ratings]
       params[:ratings].keys
+    end
   end
 
 end
