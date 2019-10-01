@@ -15,13 +15,39 @@ class MoviesController < ApplicationController
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.pluck(:rating).uniq
 
-    if params[:sort]
-      @movies = Movie.order(params[:sort])
-    elsif params[:ratings]
-      @movies = Movie.where(:rating => params[:ratings].keys)
+    redirect = false
+
+    if params[:ratings]
+      session[:ratings] = params[:ratings]
     else
-      @movies = Movie.all
+      redirect = true
     end
+
+    session[:ratings] = session[:ratings] || Hash[ @all_ratings.map {|ratings| [ratings, 1]}]
+    @ratings = session[:ratings]
+
+    if params[:sort]
+      session[:sort] = params[:sort]
+    else
+      redirect = true
+    end
+    session[:sort] = session[:sort] || ""
+    @sort = session[:sort]
+
+    if redirect
+      redirect_to movies_path({:sort => @sort, :ratings => ratings})
+    end
+
+    @movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @sort)
+    
+
+    #if params[:sort]
+    #  @movies = Movie.order(params[:sort])
+    #elsif params[:ratings]
+    #  @movies = Movie.where(:rating => params[:ratings].keys)
+    #else
+    #  @movies = Movie.all
+    #end
   end
 
   def new
