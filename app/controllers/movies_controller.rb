@@ -22,10 +22,8 @@ class MoviesController < ApplicationController
     if params[:sort]
       @movies = Movie.order(params[:sort])
     else
-      @movies = Movie.where(:rating == 'PG-13')
+      @movies = Movie.where(:rating => @checks)
     end
-
-
   end
 
   def new
@@ -59,9 +57,6 @@ class MoviesController < ApplicationController
   def checked_boxes
     if params[:rating]
       params[:rating].keys
-    else
-      @all_ratings
-    end
   end
 
 end
