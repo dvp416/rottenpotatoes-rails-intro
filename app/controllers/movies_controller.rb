@@ -12,8 +12,7 @@ class MoviesController < ApplicationController
 
   def index
 
-  @all_ratings = ['G', 'PG', 'PG-13' 'R']
-    #@all_ratings = Movie.pluck(:rating).uniq
+    @all_ratings = Movie.pluck(:rating).uniq
 
    redirect = false
 
@@ -30,7 +29,7 @@ class MoviesController < ApplicationController
    else
      redirect = true
    end
-   session[:sort] = session[:sort] || ""
+   session[:sort] = session[:sort]
    @category = session[:sort]
 
    if redirect
@@ -39,7 +38,11 @@ class MoviesController < ApplicationController
    end
 
    #@movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
-   @movies = Movie.order(:order => @category).where(:rating => @ratings.keys)
+   if @category and @ratings
+     @movies = Movie.order(:order => @category).where(:rating => @ratings.keys)
+   else
+     @movies = Movie.all
+   end
 
 
     #if params[:sort]
