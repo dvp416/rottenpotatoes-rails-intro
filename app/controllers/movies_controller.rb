@@ -14,6 +14,10 @@ class MoviesController < ApplicationController
 
     @all_ratings = Movie.pluck(:rating).uniq
 
+    @checked_boxes = check_boxes
+    @checked_boxes.each do |rating|
+      session[:rating] = true
+    end
 
 
     #Session handling for ratings filter
@@ -68,8 +72,11 @@ class MoviesController < ApplicationController
   end
 
   def check_boxes
-    ahem
-    
+    if session[:ratings]
+      session[:ratings].keys
+    else
+      @all_ratings
+    end
   end
 
 end
