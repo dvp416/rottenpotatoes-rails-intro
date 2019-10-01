@@ -30,7 +30,7 @@ class MoviesController < ApplicationController
    else
      redirect = true
    end
-   session[:category] = session[:category] || ""
+   session[:category] = session[:category] || :asc
    @category = session[:category]
 
    if redirect
