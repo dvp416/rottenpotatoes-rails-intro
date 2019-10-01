@@ -28,7 +28,7 @@ class MoviesController < ApplicationController
 
    #@movies = Movie.where("rating in (?)", @ratings.keys).find(:all, :order => @category)
    if @category and @ratings
-     @movies = Movie.order(:order => @category).where(:rating => @ratings.keys)
+     @movies = Movie.order(@category).where(:rating => @ratings.keys)
    else
      @movies = Movie.all
    end
