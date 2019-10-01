@@ -41,7 +41,7 @@ class MoviesController < ApplicationController
     if session[:ratings] and session[:sort]
       @movies = Movies.order(session[:sort]).where(:rating => session[:ratings].keys)
     elsif session[:ratings]
-      @movies = Movies.where(:rating => session[:ratings].keys)
+      #@movies = Movies.where(:rating => session[:ratings].keys)
     elsif session[:sort]
       @movies = Movies.order(session[:sort])
     else
