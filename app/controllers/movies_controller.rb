@@ -15,14 +15,14 @@ class MoviesController < ApplicationController
     #@all_ratings = ['G', 'PG', 'R']
     @all_ratings = Movie.order(:rating).select(:rating).map(&:rating).uniq
     @checks = checked_boxes
-    @checks.each do |rating|
-      params[rating] = true
-    end
+    #@checks.each do |rating|
+  #    params[rating] = true
+    #end
 
     if params[:sort]
       @movies = Movie.order(params[:sort])
     else
-      @movies = Movie.where(:rating => @checks)
+      @movies = Movie.order(params[:rating])
     end
 
 
